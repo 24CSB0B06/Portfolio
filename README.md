@@ -1,93 +1,120 @@
-# Deekshith Akula - Personal Portfolio
+# Personal Portfolio & REST API
 
-A single-page React portfolio application built using React 18, Vite, and React Router DOM. This app converts the original static HTML/CSS portfolio into a dynamic web app with client-side routing, theme persistence, controlled form validation, and component state management.
+A full-stack personal portfolio application built with **React** (Vite + React Router) and a **Node.js / Express** REST API backend.
+
+## 🚀 Features
+
+- **Responsive Portfolio Frontend**: Multi-page React application showcasing projects, technical skills, education, and contact form.
+- **Dynamic Theme Toggle**: Seamless switching between Dark Mode and Light Mode with persistent state.
+- **RESTful API Backend**: Express server handling project data retrieval and processing contact form submissions with server-side validation.
+- **JSON File Persistence**: Lightweight data storage for project listings and contact submissions.
+- **Case Study Deep-Dives**: Detailed project view page supporting direct links (`/projects/:projectId`).
 
 ---
 
-## How to Run Locally
+## 🛠️ Tech Stack
 
-Make sure you have Node.js installed on your system.
+- **Frontend**: React 18, React Router v6, Vite, Vanilla CSS
+- **Backend**: Node.js, Express.js, CORS, dotenv
+- **Storage**: JSON File Persistence (`/server/data/`)
 
-1. **Install dependencies:**
+---
+
+## 💻 Getting Started
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) (v16 or higher) installed on your system.
+
+### Installation & Running Locally
+
+1. **Clone the Repository**
    ```bash
-   npm install
+   git clone https://github.com/24CSB0B06/Portfolio.git
+   cd Portfolio
    ```
 
-2. **Run dev server:**
+2. **Start the Backend API Server**
    ```bash
+   cd server
+   npm install
+   npm start
+   ```
+   The backend API server will run at `http://localhost:5000`.
+
+3. **Start the Frontend App**
+   Open a new terminal window in the root directory:
+   ```bash
+   npm install
    npm run dev
    ```
    Open `http://localhost:5173` in your browser.
 
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
+---
 
-4. **Preview build:**
-   ```bash
-   npm run preview
-   ```
+## 📡 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/` | API status check |
+| `GET` | `/api/projects` | Fetch all portfolio projects |
+| `GET` | `/api/projects/:id` | Fetch detailed view of a specific project |
+| `POST` | `/api/contact` | Submit contact form message |
+| `GET` | `/api/contact` | Retrieve stored contact submissions |
+
+### Example API Usage
+
+#### Submit Contact Form (`POST /api/contact`)
+
+**Request Body:**
+```json
+{
+  "name": "Alex Smith",
+  "email": "alex@example.com",
+  "message": "Interested in collaborating on a full-stack project."
+}
+```
+
+**Response (`201 Created`):**
+```json
+{
+  "success": true,
+  "message": "Contact form submission received successfully!",
+  "data": {
+    "id": "submission_1787718403538_und7k",
+    "name": "Alex Smith",
+    "email": "alex@example.com",
+    "message": "Interested in collaborating on a full-stack project.",
+    "createdAt": "2026-08-26T04:26:43.538Z"
+  }
+}
+```
 
 ---
 
-## Component Architecture & State Management
+## 📁 Repository Structure
 
-### Component Tree
-
-- App (Theme State & Router)
-  - Layout (Shared persistent layout)
-    - Navbar
-      - ThemeToggle
-    - Pages (Rendered inside Outlet)
-      - Home (Mount Loading Simulation)
-      - About
-        - Skills -> SkillGroup -> SkillTag
-      - Projects
-        - ProjectList -> ProjectCard
-      - ProjectDetail (/projects/:projectId)
-      - Contact
-        - ContactForm
-      - NotFound (404 catch-all route)
-    - Footer
-
-### State & Lifting Decisions
-
-- **Dark / Light Theme (`theme`)**:
-  Lifted up to `App.jsx` because changing the theme changes CSS custom properties across the whole page (`<html>` element) and updates the toggle button in the `Navbar`. By keeping theme state in `App`, any component can access or trigger theme changes smoothly.
-
-- **Contact Form State**:
-  Kept inside `ContactForm.jsx` as controlled state (`name`, `email`, `message`). Having state bound to input values allows real-time error checks and disables the submit button until required fields are filled correctly.
-
-- **Card Expansion State (`isExpanded`)**:
-  Scoped directly inside `ProjectCard.jsx`. Each card manages its own `useState(false)` toggle so clicking "View Quick Details" on one card expands only that specific card without expanding others.
-
-- **Prop Drilling Demonstration**:
-  - `Projects.jsx` -> `ProjectList.jsx` -> `ProjectCard.jsx` (passes project data 2 levels down).
-  - `About.jsx` -> `Skills.jsx` -> `SkillGroup.jsx` -> `SkillTag.jsx` (passes technical skills down 3 levels).
+```
+Portfolio/
+├── server/                 # Express REST API backend
+│   ├── data/               # JSON data storage (projects, contact submissions)
+│   ├── .env.example        # Environment variable template
+│   ├── index.js            # Express server entry point
+│   └── package.json
+├── src/                    # React frontend source
+│   ├── components/         # Reusable UI components (Navbar, ContactForm, etc.)
+│   ├── pages/              # Page components (Home, About, Projects, etc.)
+│   ├── App.jsx             # Main router configuration
+│   └── index.css           # Global design system & styles
+├── public/                 # Static assets
+└── README.md
+```
 
 ---
 
-## Side Effects (`useEffect`) Hooks
+## 👤 Author
 
-1. **Dark/Light Theme Persistence (`App.jsx`)**
-   - **Why:** Saves the current theme choice in `localStorage` whenever `theme` changes and reads it on initial load so user preferences stay saved across page refreshes.
-
-2. **Home Page Loading Delay (`Home.jsx`)**
-   - **Why:** Simulates a 1-second data loading sequence on component mount using `setTimeout`.
-   - **Cleanup:** Clears the timer with `clearTimeout(timer)` when the component unmounts to avoid memory leaks or updating state on an unmounted component.
-
-3. **Navbar Responsive Resize Listener (`Navbar.jsx`)**
-   - **Why:** Adds a `resize` event listener on `window` to track screen size for mobile navigation.
-   - **Cleanup:** Calls `window.removeEventListener('resize', handleResize)` on unmount to clean up event listeners.
-
-4. **Contact Form Real-time Validation (`ContactForm.jsx`)**
-   - **Why:** Re-evaluates form field errors whenever `formData` updates to validate input format and toggle submit button availability.
-
----
-
-## Tech Stack
-- **React 18** (Functional Components + Hooks)
-- **React Router DOM v6** (Client-side routing with `NavLink`, `useParams`, dynamic routes)
-- **Vite** (Build tool)
-- **Custom CSS** (Dark & Light theme CSS custom properties)
+**Deekshith Akula**  
+Computer Science & Engineering Student @ NIT Warangal  
+- GitHub: [@24CSB0B06](https://github.com/24CSB0B06)
+- Email: deekshithakula3001@gmail.com
