@@ -4,7 +4,7 @@ A fully responsive personal portfolio website built using pure HTML5 and CSS3 wi
 
 ## Design Rationale
 
-The visual design uses a cohesive slate blue (`#2563eb`) and deep navy (`#0f172a`) color palette defined via CSS custom properties (`:root`) to maintain consistent theming across all components. Typography relies on a clean system font stack (`system-ui`) for optimal cross-platform legibility. High-contrast text and explicit focus indicators (`:focus-visible`) enforce WCAG AA accessibility standards. Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`) structure the document into logical sections with a single `<h1>` main heading hierarchy for screen reader compatibility.
+The visual design uses a cohesive slate blue (`#2563eb`) and deep navy (`#0f172a`) color palette defined via CSS custom properties (`:root`) to maintain consistent theming across all components. Typography relies on a clean system font stack (`system-ui`) for optimal cross-platform legibility. High-contrast text and explicit focus indicators (`:focus-visible`) enforce WCAG AA accessibility standards. Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`) structure the document into logical sections with a single `<h1>` main heading hierarchy for screen reader comp atibility.
 
 ## Layout Technique
 
