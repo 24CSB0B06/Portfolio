@@ -1,20 +1,93 @@
-# Personal Portfolio Website
+# Deekshith Akula - Personal Portfolio
 
-A fully responsive personal portfolio website built using pure HTML5 and CSS3 without external frameworks or preprocessors.
+A single-page React portfolio application built using React 18, Vite, and React Router DOM. This app converts the original static HTML/CSS portfolio into a dynamic web app with client-side routing, theme persistence, controlled form validation, and component state management.
 
-## Design Rationale
+---
 
-The visual design uses a cohesive slate blue (`#2563eb`) and deep navy (`#0f172a`) color palette defined via CSS custom properties (`:root`) to maintain consistent theming across all components. Typography relies on a clean system font stack (`system-ui`) for optimal cross-platform legibility. High-contrast text and explicit focus indicators (`:focus-visible`) enforce WCAG AA accessibility standards. Semantic HTML5 elements (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`) structure the document into logical sections with a single `<h1>` main heading hierarchy for screen reader comp atibility.
+## How to Run Locally
 
-## Layout Technique
+Make sure you have Node.js installed on your system.
 
-The layout leverages a combination of Flexbox and CSS Grid:
-- **Flexbox**: Employed for 1-dimensional alignment in the sticky header navigation, hero content, skill pill badges, and call-to-action buttons. It handles content centering and fluid distribution with minimal code overhead.
-- **CSS Grid**: Utilized for the 2-dimensional project card showcase (`grid-template-columns: repeat(3, 1fr)`). CSS Grid ensures equal-height card alignment across rows and columns.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Two responsive media query breakpoints (`768px` for tablets and `480px` for mobile devices) adjust the grid layout into two columns and a single column respectively, while reflowing navigation links and typography size for smaller screens.
+2. **Run dev server:**
+   ```bash
+   npm run dev
+   ```
+   Open `http://localhost:5173` in your browser.
 
-## Known Limitations
+3. **Build for production:**
+   ```bash
+   npm run build
+   ```
 
-1. **Static Contact Form**: The form utilizes HTML5 client-side validation (`required`, input types) but lacks backend integration (Node.js/Express) or JavaScript handling, which will be integrated in subsequent course assignments.
-2. **Device Testing**: Testing was conducted using desktop browser viewport emulation across specified breakpoints rather than physical mobile hardware.
+4. **Preview build:**
+   ```bash
+   npm run preview
+   ```
+
+---
+
+## Component Architecture & State Management
+
+### Component Tree
+
+- App (Theme State & Router)
+  - Layout (Shared persistent layout)
+    - Navbar
+      - ThemeToggle
+    - Pages (Rendered inside Outlet)
+      - Home (Mount Loading Simulation)
+      - About
+        - Skills -> SkillGroup -> SkillTag
+      - Projects
+        - ProjectList -> ProjectCard
+      - ProjectDetail (/projects/:projectId)
+      - Contact
+        - ContactForm
+      - NotFound (404 catch-all route)
+    - Footer
+
+### State & Lifting Decisions
+
+- **Dark / Light Theme (`theme`)**:
+  Lifted up to `App.jsx` because changing the theme changes CSS custom properties across the whole page (`<html>` element) and updates the toggle button in the `Navbar`. By keeping theme state in `App`, any component can access or trigger theme changes smoothly.
+
+- **Contact Form State**:
+  Kept inside `ContactForm.jsx` as controlled state (`name`, `email`, `message`). Having state bound to input values allows real-time error checks and disables the submit button until required fields are filled correctly.
+
+- **Card Expansion State (`isExpanded`)**:
+  Scoped directly inside `ProjectCard.jsx`. Each card manages its own `useState(false)` toggle so clicking "View Quick Details" on one card expands only that specific card without expanding others.
+
+- **Prop Drilling Demonstration**:
+  - `Projects.jsx` -> `ProjectList.jsx` -> `ProjectCard.jsx` (passes project data 2 levels down).
+  - `About.jsx` -> `Skills.jsx` -> `SkillGroup.jsx` -> `SkillTag.jsx` (passes technical skills down 3 levels).
+
+---
+
+## Side Effects (`useEffect`) Hooks
+
+1. **Dark/Light Theme Persistence (`App.jsx`)**
+   - **Why:** Saves the current theme choice in `localStorage` whenever `theme` changes and reads it on initial load so user preferences stay saved across page refreshes.
+
+2. **Home Page Loading Delay (`Home.jsx`)**
+   - **Why:** Simulates a 1-second data loading sequence on component mount using `setTimeout`.
+   - **Cleanup:** Clears the timer with `clearTimeout(timer)` when the component unmounts to avoid memory leaks or updating state on an unmounted component.
+
+3. **Navbar Responsive Resize Listener (`Navbar.jsx`)**
+   - **Why:** Adds a `resize` event listener on `window` to track screen size for mobile navigation.
+   - **Cleanup:** Calls `window.removeEventListener('resize', handleResize)` on unmount to clean up event listeners.
+
+4. **Contact Form Real-time Validation (`ContactForm.jsx`)**
+   - **Why:** Re-evaluates form field errors whenever `formData` updates to validate input format and toggle submit button availability.
+
+---
+
+## Tech Stack
+- **React 18** (Functional Components + Hooks)
+- **React Router DOM v6** (Client-side routing with `NavLink`, `useParams`, dynamic routes)
+- **Vite** (Build tool)
+- **Custom CSS** (Dark & Light theme CSS custom properties)
