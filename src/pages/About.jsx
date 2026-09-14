@@ -55,7 +55,6 @@ export default function About() {
             </div>
           </div>
 
-          {/* Prop Drilling: About -> Skills -> SkillGroup -> SkillTag */}
           <Skills skillCategories={skillCategories} />
         </div>
       </div>

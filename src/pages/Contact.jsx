@@ -9,7 +9,6 @@ export default function Contact() {
         Have a project in mind or want to collaborate? Reach out directly or send me a message below!
       </p>
 
-      {/* Contact Information Cards */}
       <div className="contact-info-grid">
         <a href="tel:+919491348422" className="contact-info-card">
           <div className="contact-icon-wrapper">
@@ -50,7 +49,6 @@ export default function Contact() {
         </a>
       </div>
 
-      {/* Controlled Contact Form */}
       <ContactForm />
     </section>
   );

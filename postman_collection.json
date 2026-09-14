@@ -1,0 +1,382 @@
+{
+  "info": {
+    "_postman_id": "portfolio-api-collection-v1",
+    "name": "Portfolio Backend API (Assignment 3)",
+    "description": "Postman Collection covering all Express REST API endpoints (B1-B7) for Assignment 3 including success and error test cases.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "B1 - Health Check (GET /)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": [""]
+        },
+        "description": "Confirms backend API status is ok and server is listening."
+      },
+      "response": [
+        {
+          "name": "Health Check Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": [""]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"status\": \"ok\",\n  \"message\": \"Portfolio Backend API is running\",\n  \"version\": \"1.0.0\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "B2 - Get All Projects (GET /api/projects)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/projects",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "projects"]
+        },
+        "description": "Returns array of all portfolio project objects."
+      },
+      "response": [
+        {
+          "name": "Projects List Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/projects",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "projects"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "[\n  {\n    \"id\": \"gymflow\",\n    \"title\": \"GymFlow\",\n    \"shortDescription\": \"A Smart Gym Occupancy Management System that enables gym members to monitor real-time occupancy status before visiting.\",\n    \"fullDescription\": \"GymFlow is an end-to-end smart gym management platform...\",\n    \"techStack\": [\"React\", \"Node.js\", \"Express\", \"PostgreSQL\"],\n    \"bgClass\": \"project-gymflow\",\n    \"bgImage\": \"/assets/images/gymflow_bg.png\",\n    \"githubLink\": \"https://github.com/24CSB0B06/GymFlow\",\n    \"liveLink\": \"https://gymflow.demo.app\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "B3 - Get Single Project (GET /api/projects/:id) - Success",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/projects/gymflow",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "projects", "gymflow"]
+        },
+        "description": "Fetches single project by valid ID."
+      },
+      "response": [
+        {
+          "name": "Single Project Success Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/projects/gymflow",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "projects", "gymflow"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"id\": \"gymflow\",\n  \"title\": \"GymFlow\",\n  \"shortDescription\": \"A Smart Gym Occupancy Management System...\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "B3 - Get Single Project - Invalid ID (404 Error)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/projects/non-existent-id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "projects", "non-existent-id"]
+        },
+        "description": "Returns JSON 404 error when project ID does not exist."
+      },
+      "response": [
+        {
+          "name": "Single Project Not Found Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/projects/non-existent-id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "projects", "non-existent-id"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"error\": \"Project not found\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "B4 - Submit Contact Form (POST /api/contact) - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"message\": \"Hello, this is a test message submitting via Postman.\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/contact",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "contact"]
+        },
+        "description": "Submits valid contact form payload and persists to server storage."
+      },
+      "response": [
+        {
+          "name": "Contact Submission Success Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"message\": \"Hello, this is a test message submitting via Postman.\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/contact",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "contact"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"success\": true,\n  \"message\": \"Contact form submission received successfully!\",\n  \"data\": {\n    \"id\": \"submission_1787718403538_und7k\",\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"message\": \"Hello, this is a test message submitting via Postman.\",\n    \"createdAt\": \"2026-08-26T04:26:43.538Z\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "B4 - Submit Contact Form - Invalid Email Format (400 Error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"invalid-email-format\",\n  \"message\": \"Testing invalid email validation.\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/contact",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "contact"]
+        },
+        "description": "Returns 400 Bad Request error when email format lacks '@' or valid domain."
+      },
+      "response": [
+        {
+          "name": "Invalid Email Error Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"invalid-email-format\",\n  \"message\": \"Testing invalid email validation.\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/contact",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "contact"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"error\": \"Invalid email address format. Email must contain \\\"@\\\" and a valid domain.\",\n  \"field\": \"email\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "B4 - Submit Contact Form - Missing Required Fields (400 Error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Doe\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/contact",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "contact"]
+        },
+        "description": "Returns 400 Bad Request error listing missing mandatory fields."
+      },
+      "response": [
+        {
+          "name": "Missing Fields Error Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/contact",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "contact"]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"error\": \"Missing required field(s): email, message\",\n  \"missingFields\": [\"email\", \"message\"]\n}"
+        }
+      ]
+    },
+    {
+      "name": "B5 - List Contact Submissions (GET /api/contact)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/contact",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "contact"]
+        },
+        "description": "Returns JSON array of all stored contact form submissions for evaluation verification (Open Endpoint)."
+      },
+      "response": [
+        {
+          "name": "Contact List Verification Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/contact",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "contact"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "[\n  {\n    \"id\": \"submission_1787718403538_und7k\",\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"message\": \"Hello world test message\",\n    \"createdAt\": \"2026-08-26T04:26:43.538Z\"\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "B6 - Catch-all 404 Handler (GET /api/doesnotexist)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/doesnotexist",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "doesnotexist"]
+        },
+        "description": "Catches undefined routes and returns structured JSON 404 response."
+      },
+      "response": [
+        {
+          "name": "Catch-all 404 Response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/doesnotexist",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "doesnotexist"]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            { "key": "Content-Type", "value": "application/json; charset=utf-8" }
+          ],
+          "body": "{\n  \"error\": \"Route /api/doesnotexist not found\"\n}"
+        }
+      ]
+    }
+  ]
+}

@@ -5,13 +5,11 @@ import LoadingSpinner from '../components/LoadingSpinner';
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Requirement 2.3: Simulate mount loading sequence with useEffect & cleanup timer
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
 
-    // Cleanup timer to prevent memory leaks if component unmounts early
     return () => {
       clearTimeout(timer);
     };

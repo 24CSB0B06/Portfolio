@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -9,9 +11,10 @@ export default function ContactForm() {
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverSuccess, setServerSuccess] = useState(null);
+  const [serverError, setServerError] = useState(null);
 
-  // Validate form inputs dynamically whenever formData changes
   useEffect(() => {
     const newErrors = {};
 
@@ -43,6 +46,7 @@ export default function ContactForm() {
       ...prev,
       [name]: value
     }));
+    if (serverError) setServerError(null);
   };
 
   const handleBlur = (e) => {
@@ -55,25 +59,55 @@ export default function ContactForm() {
 
   const isFormValid = Object.keys(errors).length === 0;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isFormValid) return;
 
-    // Simulate successful form submission
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-    setTouched({});
+    setIsSubmitting(true);
+    setServerError(null);
+    setServerSuccess(null);
 
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit contact form.');
+      }
+
+      setServerSuccess(data.message || '✓ Thank you! Your message has been sent successfully.');
+      setFormData({ name: '', email: '', message: '' });
+      setTouched({});
+
+      setTimeout(() => {
+        setServerSuccess(null);
+      }, 7000);
+    } catch (err) {
+      console.error('Submission error:', err);
+      setServerError(err.message || 'Unable to connect to server. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form className="contact-form" onSubmit={handleSubmit} noValidate>
-      {isSubmitted && (
+      {serverSuccess && (
         <div className="form-success-banner" role="alert">
-          ✓ Thank you! Your message has been sent successfully. I will get back to you soon!
+          {serverSuccess}
+        </div>
+      )}
+
+      {serverError && (
+        <div className="form-error-banner" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', border: '1px solid #ef4444', padding: '14px', borderRadius: '8px', marginBottom: '16px' }} role="alert">
+          ⚠️ <strong>Server Validation Error:</strong> {serverError}
         </div>
       )}
 
@@ -128,11 +162,12 @@ export default function ContactForm() {
       <button
         type="submit"
         className="btn btn-primary form-submit"
-        disabled={!isFormValid}
+        disabled={!isFormValid || isSubmitting}
         title={!isFormValid ? 'Please fill out all required fields correctly' : 'Submit message'}
       >
-        Send Message 
+        {isSubmitting ? 'Sending Message...' : 'Send Message ↗'}
       </button>
     </form>
   );
 }
+

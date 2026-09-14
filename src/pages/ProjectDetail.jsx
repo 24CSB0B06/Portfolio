@@ -1,19 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { projects } from '../data/projects';
+import LoadingSpinner from '../components/LoadingSpinner';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function ProjectDetail() {
   const { projectId } = useParams();
+  const [project, setProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const project = projects.find((p) => p.id === projectId);
+  useEffect(() => {
+    const fetchProjectDetail = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/projects/${projectId}`);
+        if (response.status === 404) {
+          setError(`Project not found with ID: ${projectId}`);
+          setProject(null);
+          return;
+        }
+        if (!response.ok) {
+          throw new Error(`Failed to load project details (Server status ${response.status})`);
+        }
+        const data = await response.json();
+        setProject(data);
+      } catch (err) {
+        console.error('Error fetching project detail:', err);
+        setError(err.message || 'Unable to connect to backend server.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  if (!project) {
+    fetchProjectDetail();
+  }, [projectId]);
+
+  if (isLoading) {
+    return (
+      <div className="section-container">
+        <LoadingSpinner message="Fetching project case study..." />
+      </div>
+    );
+  }
+
+  if (error || !project) {
     return (
       <div className="section-container">
         <div className="project-detail-container" style={{ textAlign: 'center' }}>
           <h2 className="section-title">Project Not Found</h2>
           <p className="contact-lead">
-            Sorry, we could not find any project matching ID: <code>{projectId}</code>.
+            {error || `Sorry, we could not find any project matching ID: ${projectId}.`}
           </p>
           <Link to="/projects" className="btn btn-primary" style={{ marginTop: '20px' }}>
             ← Back to All Projects
@@ -22,6 +60,7 @@ export default function ProjectDetail() {
       </div>
     );
   }
+
 
   const { title, fullDescription, techStack, githubLink, liveLink, details } = project;
 

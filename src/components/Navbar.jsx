@@ -5,7 +5,6 @@ import ThemeToggle from './ThemeToggle';
 export default function Navbar({ theme, onToggleTheme }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Demonstrate useEffect cleanup function for window resize listener (Requirement 2.3)
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -13,7 +12,6 @@ export default function Navbar({ theme, onToggleTheme }) {
 
     window.addEventListener('resize', handleResize);
 
-    // Cleanup subscription to prevent memory leak
     return () => {
       window.removeEventListener('resize', handleResize);
     };

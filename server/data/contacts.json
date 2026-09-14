@@ -1,0 +1,58 @@
+[
+  {
+    "id": "submission_1787718403538_und7k",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "message": "Hello world test message",
+    "createdAt": "2026-08-26T04:26:43.538Z"
+  },
+  {
+    "id": "submission_1787751676366_u3af1",
+    "name": "Deekshith",
+    "email": "ad24csb0b06@student.nitw.ac.in",
+    "message": "Hi my self A.Deekshith",
+    "createdAt": "2026-08-26T13:41:16.367Z"
+  },
+  {
+    "id": "submission_1787753162650_5n9rr",
+    "name": "Ganesh",
+    "email": "ganesh2026@gmail.com",
+    "message": "HI ganesh when are you coming \nWe all are waiting for you",
+    "createdAt": "2026-08-26T14:06:02.650Z"
+  },
+  {
+    "id": "submission_1789383701234_optem",
+    "name": "Verification Bot",
+    "email": "bot@example.com",
+    "message": "Automated evaluation check for POST /api/contact",
+    "createdAt": "2026-09-14T11:01:41.234Z"
+  },
+  {
+    "id": "submission_1789383800984_yqhyk",
+    "name": "Deekshith Akula",
+    "email": "deekshith@example.com",
+    "message": "Hello! Automated submission verification test.",
+    "createdAt": "2026-09-14T11:03:20.984Z"
+  },
+  {
+    "id": "submission_1789384039323_90vsb",
+    "name": "Deekshith Akula",
+    "email": "deekshithakula3001@gmail.com",
+    "message": "msmcmomcmsc",
+    "createdAt": "2026-09-14T11:07:19.323Z"
+  },
+  {
+    "id": "submission_1789391748946_m98h4",
+    "name": "Example 1",
+    "email": "example1@gmail.com",
+    "message": "Hi iam here to submit the form",
+    "createdAt": "2026-09-14T13:15:48.946Z"
+  },
+  {
+    "id": "submission_1789391907885_cd6px",
+    "name": "Example 112",
+    "email": "example112@gmail.com",
+    "message": "HI my self example112 iam here to submit the form",
+    "createdAt": "2026-09-14T13:18:27.885Z"
+  }
+]

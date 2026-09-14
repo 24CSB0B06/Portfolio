@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-/**
- * ProjectCard - Generic reusable component receiving project data strictly via props.
- * Demonstrates component-scoped useState for independent 'View Details' inline expansion.
- */
 export default function ProjectCard({
   id,
   title,
   shortDescription,
+  description,
   techStack = [],
   bgClass = '',
   bgImage = '',
+  image = '',
   githubLink,
+  link,
   details = {}
 }) {
-  // Independent state scoped per component instance (Requirement 2.2)
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded((prev) => !prev);
   };
 
-  const cardStyle = bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover' } : {};
+  const displayDescription = description || shortDescription;
+  const displayImage = image || bgImage;
+  const displayLink = githubLink || link;
+
+  const cardStyle = displayImage ? { backgroundImage: `url(${displayImage})`, backgroundSize: 'cover' } : {};
 
   return (
     <article className={`project-card ${bgClass}`} style={cardStyle}>
@@ -30,7 +32,7 @@ export default function ProjectCard({
       <div className="project-card-content">
         <div>
           <h3>{title}</h3>
-          <p>{shortDescription}</p>
+          <p>{displayDescription}</p>
 
           <div className="project-tech">
             {techStack.map((tech, index) => (
@@ -56,9 +58,9 @@ export default function ProjectCard({
               Full Case Study ↗
             </Link>
 
-            {githubLink && (
+            {displayLink && (
               <a
-                href={githubLink}
+                href={displayLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="project-btn"
@@ -68,7 +70,6 @@ export default function ProjectCard({
             )}
           </div>
 
-          {/* Component-level expanded content (independent per card instance) */}
           {isExpanded && (
             <div className="card-expanded-box">
               <h4>Category: {details.category || 'Software Project'}</h4>

@@ -585,7 +585,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     color: #ffffff;
 }
 
-/* Card Extended Details (Requirement 2.2 Scoped State) */
+/* Card Extended Details */
 .card-expanded-box {
     margin-top: 14px;
     padding: 14px;
@@ -866,7 +866,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
     font-size: 1.05rem;
 }
 
-/* Loading Spinner (Requirement 2.3 Home Mount Effect) */
+/* Loading Spinner */
 .loading-container {
     display: flex;
     flex-direction: column;
